@@ -1,0 +1,59 @@
+:root {
+  /* ─── Application Colors (Light) ─── */
+  --app-bg: #fafbfa;
+  --app-surface: #ffffff;
+  --app-subtle: #f3f6f4;
+  --app-text-primary: #0f1a14;
+  --app-text-secondary: #5a6b61;
+  --app-border: #dee7e1;
+  --app-accent: #047857;
+  --app-accent-hover: #065f46;
+  --app-danger: #dc2626;
+  --app-success: #16a34a;
+
+  /* ─── Application Typography ─── */
+  --app-font-fa: 'Vazirmatn', system-ui, -apple-system, sans-serif;
+  --app-font-en: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* ─── Spacing Scale ─── */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+
+  /* ─── Radii ─── */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+
+  /* ─── Shadows ─── */
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.04);
+  --shadow-md: 0 4px 12px rgb(0 0 0 / 0.06);
+
+  /* ─── Resume Tokens (Reserved — not used in v0.1) ─── */
+  /* Default resume accent matches app accent for coherence, */
+  /* but remains fully independent and overridable per resume. */
+  --resume-accent: #047857;
+  --resume-font-fa: 'Vazirmatn', serif;
+  --resume-font-en: 'Inter', serif;
+}
+
+.dark {
+  --app-bg: #0c120f;
+  --app-surface: #16201b;
+  --app-subtle: #1e2a24;
+  --app-text-primary: #ecf2ee;
+  --app-text-secondary: #9aada1;
+  --app-border: #24302a;
+  --app-accent: #10b981;
+  --app-accent-hover: #34d399;
+  --app-danger: #ef4444;
+  --app-success: #22c55e;
+
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.2);
+  --shadow-md: 0 4px 12px rgb(0 0 0 / 0.3);
+}

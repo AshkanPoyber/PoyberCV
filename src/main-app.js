@@ -45,7 +45,9 @@ function render() {
               render();
             },
           },
-          getTheme() === 'light' ? '🌙' : '☀️'
+          createElement('i', {
+            className: getTheme() === 'light' ? 'fa-solid fa-moon' : 'fa-solid fa-sun',
+          })
         )
       ),
       createElement(

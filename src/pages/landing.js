@@ -2,45 +2,10 @@ import { t, getLocale, setLocale } from '../i18n/index.js';
 import { toggleTheme, getTheme } from '../theme/index.js';
 import { createElement } from '../core/dom.js';
 
-const LUCIDE_CDN = 'https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js';
-
-/**
- * Load Lucide from CDN lazily (once) and initialize icons.
- * Safe to call after every re-render.
- * @returns {Promise<void>}
- */
-async function initLucideIcons() {
-  if (!window.lucide) {
-    await loadScript(LUCIDE_CDN);
-  }
-  window.lucide?.createIcons();
-}
-
-/**
- * @param {string} src
- * @returns {Promise<void>}
- */
-function loadScript(src) {
-  return new Promise((resolve, reject) => {
-    const existing = document.querySelector(`script[src="${src}"]`);
-    if (existing) {
-      existing.addEventListener('load', () => resolve());
-      existing.addEventListener('error', () => reject(new Error('Lucide load failed')));
-      return;
-    }
-    const script = document.createElement('script');
-    script.src = src;
-    script.async = true;
-    script.onload = () => resolve();
-    script.onerror = () => reject(new Error('Lucide load failed'));
-    document.head.appendChild(script);
-  });
-}
-
 /**
  * Render the full Landing page into #app.
  */
-async function render() {
+function render() {
   const app = document.getElementById('app');
   if (!app) return;
 
@@ -51,13 +16,6 @@ async function render() {
   app.appendChild(buildTemplatesPreview());
   app.appendChild(buildCta());
   app.appendChild(buildFooter());
-
-  try {
-    await initLucideIcons();
-  } catch {
-    // Icons unavailable — text still readable, not a blocker.
-    console.warn('Lucide icons could not be loaded.');
-  }
 }
 
 function buildHeader() {
@@ -103,7 +61,9 @@ function buildHeader() {
             },
             'aria-label': t('theme.toggle'),
           },
-          getTheme() === 'light' ? '🌙' : '☀️'
+          createElement('i', {
+            className: getTheme() === 'light' ? 'fa-solid fa-moon' : 'fa-solid fa-sun',
+          })
         ),
         createElement(
           'a',
@@ -151,10 +111,10 @@ function buildHero() {
 
 function buildFeatures() {
   const features = [
-    { icon: 'languages', key: 'bilingual' },
+    { icon: 'language', key: 'bilingual' },
     { icon: 'eye', key: 'preview' },
-    { icon: 'file-text', key: 'pdf' },
-    { icon: 'layout-template', key: 'templates' },
+    { icon: 'file-pdf', key: 'pdf' },
+    { icon: 'layer-group', key: 'templates' },
   ];
 
   return createElement(
@@ -181,7 +141,7 @@ function buildFeatures() {
             createElement(
               'div',
               { className: 'flex h-10 w-10 items-center justify-center rounded-sm bg-accent/10' },
-              createElement('i', { 'data-lucide': icon, className: 'h-5 w-5 text-accent' })
+              createElement('i', { className: `fa-solid fa-${icon} text-accent text-lg` })
             ),
             createElement(
               'h3',
@@ -276,7 +236,7 @@ function buildFooter() {
   );
 }
 
-// Bootstrap: init locale + theme BEFORE first render to avoid flicker.
+// Bootstrap
 import { initLocale } from '../i18n/index.js';
 import { initTheme } from '../theme/index.js';
 

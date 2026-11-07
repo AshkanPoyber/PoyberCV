@@ -2,9 +2,10 @@ import fa from './locales/fa.json';
 import en from './locales/en.json';
 import { applyDirection } from './direction.js';
 import { emit } from '../core/event-bus.js';
+import { localStorageAdapter } from '../persistence/localstorage-adapter.js';
 
 const locales = { fa, en };
-const STORAGE_KEY = 'poybercv:ui:locale';
+const STORAGE_KEY = 'ui:locale';
 
 let currentLocale = 'fa';
 let translations = fa;
@@ -26,7 +27,7 @@ export function getLocale() {
 }
 
 /**
- * Change locale, update DOM attributes, persist, and notify subscribers.
+ * Change locale, update DOM, persist, notify.
  * @param {'fa'|'en'} locale
  */
 export function setLocale(locale) {
@@ -36,16 +37,16 @@ export function setLocale(locale) {
   translations = locales[locale];
 
   applyDirection(document.documentElement, locale);
-  localStorage.setItem(STORAGE_KEY, locale);
+  localStorageAdapter.set(STORAGE_KEY, locale);
   emit('locale:changed', locale);
 }
 
 /**
- * Initialize locale from LocalStorage before first render.
+ * Initialize locale from storage before first render.
  * Call once at bootstrap to avoid flicker.
  */
 export function initLocale() {
-  const stored = localStorage.getItem(STORAGE_KEY);
+  const stored = localStorageAdapter.get(STORAGE_KEY);
   const locale = stored && locales[stored] ? stored : 'fa';
 
   currentLocale = locale;
